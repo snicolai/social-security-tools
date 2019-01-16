@@ -9,11 +9,13 @@
     </p>
     <p>
       Your <u>primary insurance amount</u> (PIA) is <b>${{0 | number}}</b>
+      It will be larger than ${{recipient.primaryInsuranceAmountUnadjusted() | number:2}}
+      when you are eligible.
     </p>
   </div>
 
   <div ng-show="recipient.isEligible()">
-    <p>
+      <p>
       Your Social Security benefits are best thought of in terms of your 
       <u>primary insurance amount</u> (PIA). This is the dollar amount that
       Social Security will pay you every month starting at your

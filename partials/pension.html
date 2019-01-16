@@ -1,0 +1,21 @@
+<div id=pension class="pensions fixed-center-column"
+                        ng-show="showReport()" ng-cloak>
+  <h2 id="nav-pension">Pension</h2>
+
+  <p>TODO explain</p>
+  <p>
+    Monthly Non SSA Pension: <b>$</b>
+    <input type="number" min=0 size=6 style="width: 68px"
+          name="nonSSAPension" cast-to-integer
+          ng-model="recipient.monthlyNonSSAPension"
+          ng-change="recipient.updateNonSSAPension()">
+    / month
+  </p>
+
+  <div ng-show="recipient.monthlyNonSSAPension > 0">
+    <p>TODO explain substantial earnings and show the number of years. You 
+      have {{recipient.substantialEarningsYears}} years of substantial earnings.
+    </p>
+  </div>
+
+</div>

@@ -71,6 +71,9 @@ function Recipient(name) {
   // Additional years of work needed, -1 means not earning enough to get a credit
   this.neededYears = -1;
 
+  // The monthly benefit of any pensions that social security taxes were not collected on.
+  this.monthlyNonSSAPension = 0;
+
   // This is the monthly primary insurance amount, calculated either from
   // monthlyIndexedEarnings or set directly.
   this.primaryInsuranceAmountValue = 0;
@@ -191,6 +194,15 @@ Recipient.prototype.updateBirthdate = function(birthdate) {
   this.processIndexedEarnings_();
 }
 
+/*
+ *
+ */
+
+ Recipient.prototype.updateNonSSAPension = function() { 
+   // Non SSA pension can affect indexed earnings.
+   this.processIndexedEarnings_();
+  }
+
 /**
  * Returns the date at a given age.
  * @param {MonthDuration} age
@@ -255,12 +267,18 @@ Recipient.prototype.processIndexedEarnings_ = function() {
   this.earnedCredits = 0;
   this.plannedCredits = 0;
   this.neededYears = -1;
+  this.substantialEarningsYears = 0;
   var allIndexedValues = [];
   for (var i = 0; i < this.earningsRecords.length; ++i) {
     var earningRecord = this.earningsRecords[i];
 
     if (earningRecord.year < 1978) {
       this.hasEarningsBefore1978 = true;
+    }
+
+    if (earningRecord.taxedEarnings > WEP_substantial_income[earningRecord.year]) {
+      this.substantialEarningsYears++;
+      earningRecord.substantialYear = true;
     }
 
     earningRecord.earningsCap = MAXIMUM_EARNINGS[earningRecord.year];
