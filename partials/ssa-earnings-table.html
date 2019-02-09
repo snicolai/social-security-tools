@@ -1,5 +1,6 @@
-<div ng-show="showReport()" class="fixed-center-column ng-cloak">
-  <h2 id="nav-demodata" ng-show="demoId > -1">Demo Data</h2>
+<span ng-show="showReport()" class="ng-cloak">
+  <a id=nav-demodata></a>
+  <h2 ng-show="demoId > -1">Demo Data</h2>
   <p ng-show="demoId === 0">
     Retiree born on July 1st 1950, who earned roughly the average US wage for
     most of their career.
@@ -13,7 +14,8 @@
     year salary in 2005 and a 4% annual raise.
   </p>
 
-  <h2 id=nav-earnings>Earnings Record</h2>
+  <a id=nav-earnings></a>
+  <h2>Earnings Record</h2>
   <table class="fancy-table">
     <thead>
       <tr>
@@ -55,27 +57,31 @@
     </tbody>
   </table>
 
-  <table class=sliderTable>
-   <tr>
-    <td>I plan to work for</td>
-    <td class=sliderColumn>
-      <!-- See http://angular-slider.github.io/angularjs-slider/ -->
-      <rzslider rz-slider-model="futureYearsWorkSlider.minValue"
-                rz-slider-options="futureYearsWorkSlider.options"></rzslider>
-    </td>
-    <td>more years,</td>
-   </tr>
-   <tr>
-    <td>Earning approximately</td>
-    <td class=sliderColumn>
-      <rzslider rz-slider-model="futureWageWorkSlider.minValue"
-                rz-slider-options="futureWageWorkSlider.options"></rzslider>
-    </td>
-    <td>per year.</td>
-   </tr>
-  </table>
+  <div style="display: inline">
+    <table class=sliderTable>
+     <tr>
+      <td>I plan to work for</td>
+      <td class=sliderColumn>
+        <!-- See http://angular-slider.github.io/angularjs-slider/ -->
+        <rzslider rz-slider-model="futureYearsWorkSlider.minValue"
+                  rz-slider-options="futureYearsWorkSlider.options"></rzslider>
+      </td>
+      <td>more years,</td>
+     </tr>
+     <tr>
+      <td>Earning approximately</td>
+      <td class=sliderColumn>
+        <rzslider rz-slider-model="futureWageWorkSlider.minValue"
+                  rz-slider-options="futureWageWorkSlider.options"></rzslider>
+      </td>
+      <td>per year.</td>
+     </tr>
+    </table>
+  </div>
+  <div class=sticky-shadow></div>
+  <div class=sticky-shadow-cover></div>
 
-  <span ng-if="futureYears.length > 0">
+  <span ng-if="recipient.futureEarningsRecords.length > 0">
   <table class="fancy-table">
   <thead>
     <tr>
@@ -89,23 +95,22 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="year in futureYears">
-      <td headers="workyear">{{year}}</td>
-      <td headers="age">{{recipient.exampleAge(year).age}}</td>
+    <tr ng-repeat="earningRecord in recipient.futureEarningsRecords">
+      <td headers="workyear">{{earningRecord.year}}</td>
+      <td headers="age">{{recipient.exampleAge(earningRecord.year).age}}</td>
       <td headers="taxedearnings">
-        ${{futureWageWorkSlider.minValue | number:0}}
-      </td>
+        ${{earningRecord.taxedEarnings | number:0}}</td>
       <td headers="multsymbol">x</th>
       <td headers="multiplier">1.00</td>
       <td headers="eqsymbol">=</th>
       <td headers="indexedearnings">
-        ${{futureWageWorkSlider.minValue | number:0}}
+        ${{earningRecord.indexedEarning() | number:0}}
       </td>
       <td headers="top35indicators">
-       <span ng-if="futureIsTopValue">Top 35 Value</span>
+        <span ng-if="earningRecord.isTopEarningYear">Top 35 Value</span>
       </td>
     </tr>
   </tbody>
   </table>
   </span>
-</div>
+</span>
